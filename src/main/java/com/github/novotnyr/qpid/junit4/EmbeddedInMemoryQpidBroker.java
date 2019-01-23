@@ -20,6 +20,8 @@ public class EmbeddedInMemoryQpidBroker implements AutoCloseable {
 
     private String initialConfigurationLocation = DEFAULT_INITIAL_CONFIGURATION_LOCATION;
 
+    private URL initialConfigurationUrl;
+
     private SystemLauncher systemLauncher;
 
     public EmbeddedInMemoryQpidBroker() {
@@ -41,12 +43,16 @@ public class EmbeddedInMemoryQpidBroker implements AutoCloseable {
 
     private Map<String, Object> createSystemConfig() throws IllegalConfigurationException {
         Map<String, Object> attributes = new HashMap<>();
-        URL initialConfig = EmbeddedInMemoryQpidBroker.class.getClassLoader().getResource(this.initialConfigurationLocation);
-        if (initialConfig == null) {
+        URL initialConfigUrl = this.initialConfigurationUrl;
+        if (initialConfigUrl == null) {
+            logger.debug("Will attempt to load config from CLASSPATH {}", this.initialConfigurationLocation);
+            initialConfigUrl = EmbeddedInMemoryQpidBroker.class.getClassLoader().getResource(this.initialConfigurationLocation);
+        }
+        if (initialConfigUrl == null) {
             throw new IllegalConfigurationException("Configuration location '" + this.initialConfigurationLocation + "' not found");
         }
         attributes.put(SystemConfig.TYPE, "Memory");
-        attributes.put(SystemConfig.INITIAL_CONFIGURATION_LOCATION, initialConfig.toExternalForm());
+        attributes.put(SystemConfig.INITIAL_CONFIGURATION_LOCATION, initialConfigUrl.toExternalForm());
         attributes.put(SystemConfig.STARTUP_LOGGED_TO_SYSTEM_OUT, this.startupLoggedToSystemOut);
         return attributes;
     }
@@ -78,4 +84,7 @@ public class EmbeddedInMemoryQpidBroker implements AutoCloseable {
         }
     }
 
+    public void setInitialConfigurationLocation(URL initialConfigurationUrl) {
+        this.initialConfigurationUrl = initialConfigurationUrl;
+    }
 }
