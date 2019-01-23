@@ -14,7 +14,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class EmbeddedInMemoryQpidBroker implements AutoCloseable {
     public static final Logger logger = getLogger(EmbeddedInMemoryQpidBroker.class);
 
-    private static final String DEFAULT_INITIAL_CONFIGURATION_LOCATION = "qpid-configuration.json";
+    private static final String DEFAULT_INITIAL_CONFIGURATION_LOCATION = "qpid-embedded-inmemory-configuration.json";
 
     private boolean startupLoggedToSystemOut = true;
 
