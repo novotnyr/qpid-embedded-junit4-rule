@@ -2,7 +2,7 @@ package com.github.novotnyr.qpid.junit4;
 
 import org.junit.rules.ExternalResource;
 
-public class QpidBrokerRule extends ExternalResource {
+public class EmbeddedInMemoryQpidBrokerRule extends ExternalResource {
     private EmbeddedInMemoryQpidBroker broker;
 
     @Override
