@@ -14,7 +14,7 @@ public class EmbeddedInMemoryQpidBrokerRule extends ExternalResource {
     @Override
     protected void before() throws Throwable {
         this.broker = new EmbeddedInMemoryQpidBroker();
-        this.broker.setStartupLoggedToSystemOut(false);
+        this.broker.setStartupLoggedToSystemOut(this.startupLoggedToSystemOut);
         this.broker.setInitialConfigurationLocation(this.configurationLocation);
         this.broker.start();
     }
